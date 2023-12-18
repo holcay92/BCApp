@@ -44,123 +44,121 @@ class MainActivity : ComponentActivity() {
         setContent {
             AppNavHost(
                 navController = rememberNavController(),
-                startDestination = "RotateTextAnimation",
+                startDestination = "SplashScreen",
             )
         }
     }
+}
 
-    @Composable
-    fun MainPage(navController: NavController) {
-        // Compose function for the homepage
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.LightGray)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.SpaceAround,
-        ) {
-            Column {
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(5.dp),
-                    shape = RoundedCornerShape(8.dp),
-                    border = BorderStroke(2.dp, color = colorResource(id = R.color.BCYellow)),
-                ) {
-                    // ILANOLUSTUR.COM headline
-                    Text(
-                        text = "ILANOLUSTUR.COM",
-                        fontFamily = FontFamily.Serif,
-                        fontSize = 30.sp,
-                        color = Color.Black,
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .align(CenterHorizontally),
-                    )
-                }
-                Spacer(modifier = Modifier.padding(28.dp))
-
+@Composable
+fun MainPage(navController: NavController) {
+    // Compose function for the homepage
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.LightGray)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.SpaceAround,
+    ) {
+        Column {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(5.dp),
+                shape = RoundedCornerShape(8.dp),
+                border = BorderStroke(2.dp, color = colorResource(id = R.color.BCYellow)),
+            ) {
+                // ILANOLUSTUR.COM headline
                 Text(
-                    text = "Otomotiv, Emlak, Kayıp, Çalıntı ve daha fazlası için ilan oluşturabilirsiniz.",
+                    text = "ILANOLUSTUR.COM",
                     fontFamily = FontFamily.Serif,
-                    fontSize = 20.sp,
-                    color = Color.Gray,
+                    fontSize = 30.sp,
+                    color = Color.Black,
                     modifier = Modifier
                         .padding(8.dp)
                         .align(CenterHorizontally),
                 )
             }
+            Spacer(modifier = Modifier.padding(28.dp))
 
-            Row(
+            Text(
+                text = "Otomotiv, Emlak, Kayıp, Çalıntı ve daha fazlası için ilan oluşturabilirsiniz.",
+                fontFamily = FontFamily.Serif,
+                fontSize = 20.sp,
+                color = Color.Gray,
                 modifier = Modifier
-                    .align(CenterHorizontally)
-                    .background(colorResource(id = R.color.BCGray)),
-                verticalAlignment = Bottom,
-            ) {
-                // go to GiveAdvertPage
-                Button(
-                    onClick = {
-                        navController.navigate("GiveAdvertPage"); Log.i(
-                            "Tag",
-                            "MainPage: ",
-                        )
-                    },
-                    colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.BCYellow)),
-                    modifier = Modifier.weight(1f),
-                    content = {
-                        Text(
-                            text = "Give Advert",
-                            modifier = Modifier,
-                        )
-                    },
-                )
-                Spacer(modifier = Modifier.weight(0.1f))
+                    .padding(8.dp)
+                    .align(CenterHorizontally),
+            )
+        }
 
-                // go to ListAdvertisementsPage
-                Button(
-                    onClick = {
-                        navController.navigate("ListAdvertisementsPage"); Log.i(
-                            "Tag",
-                            "MainPage: 2",
-                        )
-                    },
-                    colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.BCYellow)),
-                    modifier = Modifier.weight(1f),
-                ) {
-                    Text(
-                        text = "List All",
-                        modifier = Modifier,
-
+        Row(
+            modifier = Modifier
+                .align(CenterHorizontally),
+            verticalAlignment = Bottom,
+        ) {
+            // go to GiveAdvertPage
+            Button(
+                onClick = {
+                    navController.navigate("GiveAdvertPage"); Log.i(
+                        "Tag",
+                        "MainPage: ",
                     )
-                }
+                },
+                colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.BCYellow)),
+                modifier = Modifier.weight(1f),
+                content = {
+                    Text(
+                        text = "Give Advert",
+                        modifier = Modifier,
+                    )
+                },
+            )
+            Spacer(modifier = Modifier.weight(0.1f))
+
+            // go to ListAdvertisementsPage
+            Button(
+                onClick = {
+                    navController.navigate("ListAdvertisementsPage"); Log.i(
+                        "Tag",
+                        "MainPage: 2",
+                    )
+                },
+                colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.BCYellow)),
+                modifier = Modifier.weight(1f),
+            ) {
+                Text(
+                    text = "List All",
+                    modifier = Modifier,
+
+                )
             }
         }
     }
+}
 
-    @Composable
-    fun AppNavHost(
-        modifier: Modifier = Modifier,
-        navController: NavHostController,
-        startDestination: String = "SplashScreen",
-    ) {
-        NavHost(navController = navController, startDestination = "MainPage") {
-            composable("RotateTextAnimation") {
-                SplashScreen()
-            }
-            composable("MainPage") {
-                MainPage(navController)
-            }
-            composable("GiveAdvertPage") {
-                AdvertGivePage()
-            }
-            composable("ListAdvertisementsPage") {
-                ListAdvertisementsPage(
-                    itemList = listOf(
-                        UserData("name1", "surname1", "ssn1"),
-                        UserData("name2", "surname2", "ssn2"),
-                    ),
-                )
-            }
+@Composable
+fun AppNavHost(
+    navController: NavHostController,
+    startDestination: String,
+) {
+    NavHost(navController = navController, startDestination = "SplashScreen") {
+        composable("SplashScreen") {
+            SplashScreen(navController)
+        }
+        composable("MainPage") {
+            MainPage(navController)
+        }
+        composable("GiveAdvertPage") {
+            AdvertGivePage()
+        }
+        composable("ListAdvertisementsPage") {
+            ListAdvertisementsPage(
+                itemList = listOf(
+                    UserData("name1", "surname1", "ssn1"),
+                    UserData("name2", "surname2", "ssn2"),
+                ),
+            )
         }
     }
 }

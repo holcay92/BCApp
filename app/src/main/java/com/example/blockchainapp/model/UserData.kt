@@ -7,4 +7,5 @@ data class UserData(
     var phoneNumber: String = "",
     var itemTitle: String = "",
     var itemDescription: String = "",
+    var isFavorite: Boolean = false,
 )

@@ -11,4 +11,5 @@
     <color name="BCYellow">#EA9923</color>
     <color name="light_theme">#ffc153</color>
     <color name="transparent">#00FFFFFF</color>
+    <color name="red">#FF1100</color>
 </resources>

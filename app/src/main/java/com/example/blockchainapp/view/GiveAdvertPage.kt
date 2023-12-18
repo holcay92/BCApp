@@ -2,11 +2,13 @@ package com.example.blockchainapp.view
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -26,7 +28,6 @@ import androidx.compose.ui.unit.sp
 import com.example.blockchainapp.R
 import com.example.blockchainapp.model.UserData
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AdvertGivePage() {
     val userData by remember { mutableStateOf(UserData()) }
@@ -44,7 +45,7 @@ fun AdvertGivePage() {
 
         ) {
             Text(
-                text = "Give Advert",
+                text = "New Advert",
                 modifier = Modifier
                     .align(CenterHorizontally),
                 fontSize = 40.sp,
@@ -54,41 +55,59 @@ fun AdvertGivePage() {
         }
         // Input fields with hints
 
-        TextField(
-            value = userData.name,
-            onValueChange = { userData.name = it },
-            label = { Text("Name") },
+        // First Row
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp),
-        )
+        ) {
+            TextField(
+                value = userData.name,
+                onValueChange = { userData.name = it },
+                label = { Text("Name") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .padding(end = 8.dp),
+            )
 
-        TextField(
-            value = userData.surname,
-            onValueChange = { userData.surname = it },
-            label = { Text("Surname") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp),
-        )
+            TextField(
+                value = userData.surname,
+                onValueChange = { userData.surname = it },
+                label = { Text("Surname") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .padding(start = 8.dp),
+            )
+        }
 
-        TextField(
-            value = userData.ssn,
-            onValueChange = { userData.ssn = it },
-            label = { Text("SSN") },
+        // Second Row
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp),
-        )
+        ) {
+            TextField(
+                value = userData.ssn,
+                onValueChange = { userData.ssn = it },
+                label = { Text("SSN") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .padding(end = 8.dp),
+            )
 
-        TextField(
-            value = userData.phoneNumber,
-            onValueChange = { userData.phoneNumber = it },
-            label = { Text("Phone Number") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp),
-        )
+            TextField(
+                value = userData.phoneNumber,
+                onValueChange = { userData.phoneNumber = it },
+                label = { Text("Phone Number") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .padding(start = 8.dp),
+            )
+        }
 
         TextField(
             value = userData.itemTitle,
@@ -105,7 +124,7 @@ fun AdvertGivePage() {
             label = { Text("Item Description") },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(100.dp)
+                .height(200.dp)
                 .padding(vertical = 8.dp),
         )
 
@@ -114,6 +133,7 @@ fun AdvertGivePage() {
             onClick = {
                 // Handle save button click
             },
+            colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.BCYellow)),
             content = {
                 Text("Save")
             },
