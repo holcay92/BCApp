@@ -69,6 +69,9 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.48")
     ksp("com.google.dagger:hilt-android-compiler:2.48")
    // kapt( "com.google.dagger:hilt-compiler:2.48")
+    val nav_version = "2.7.6"
+
+    implementation("androidx.navigation:navigation-compose:$nav_version")
 
     implementation("androidx.room:room-ktx:2.6.1")
     implementation("androidx.core:core-ktx:1.12.0")

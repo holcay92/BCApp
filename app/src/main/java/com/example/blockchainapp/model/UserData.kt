@@ -6,5 +6,5 @@ data class UserData(
     var ssn: String = "",
     var phoneNumber: String = "",
     var itemTitle: String = "",
-    var itemDescription: String = ""
+    var itemDescription: String = "",
 )

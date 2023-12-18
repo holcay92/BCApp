@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="BCGray">#918C8C</color>
     <color name="BCYellow">#EA9923</color>
+    <color name="light_theme">#ffc153</color>
+    <color name="transparent">#00FFFFFF</color>
 </resources>
