@@ -29,7 +29,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -65,13 +65,23 @@ dependencies {
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:$room_version")
 
-    //hilt
+    // hilt
     implementation("com.google.dagger:hilt-android:2.48")
     ksp("com.google.dagger:hilt-android-compiler:2.48")
-   // kapt( "com.google.dagger:hilt-compiler:2.48")
+    implementation("androidx.hilt:hilt-navigation-fragment:1.1.0")
+    // kapt( "com.google.dagger:hilt-compiler:2.48")
     val nav_version = "2.7.6"
 
     implementation("androidx.navigation:navigation-compose:$nav_version")
+
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
+    implementation("androidx.compose.runtime:runtime-livedata:1.5.4")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.2")
+    // live data
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
+    // view model
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
 
     implementation("androidx.room:room-ktx:2.6.1")
     implementation("androidx.core:core-ktx:1.12.0")

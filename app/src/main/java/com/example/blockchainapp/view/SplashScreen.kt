@@ -1,14 +1,11 @@
 package com.example.blockchainapp.view
 
-import android.widget.ImageView
 import androidx.compose.animation.core.* // ktlint-disable no-wildcard-imports
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment.Companion.Center
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.colorResource
@@ -28,9 +25,9 @@ fun SplashScreen(navController: NavController) {
         label = "",
     )
 
-    val tmdbIcon = painterResource(id = R.drawable.saul)
+    val splashIcon = painterResource(id = R.drawable.saul)
     LaunchedEffect(true) {
-        delay(2000)
+        delay(1000)
         navController.navigate("MainPage")
     }
 
@@ -41,7 +38,7 @@ fun SplashScreen(navController: NavController) {
             .graphicsLayer(rotationZ = rotation),
     ) {
         Image(
-            painter = tmdbIcon,
+            painter = splashIcon,
             contentDescription = null,
             modifier = Modifier
                 .size(300.dp)

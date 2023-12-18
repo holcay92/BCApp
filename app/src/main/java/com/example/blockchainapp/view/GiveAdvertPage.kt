@@ -18,19 +18,27 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.blockchainapp.R
-import com.example.blockchainapp.model.UserData
+import com.example.blockchainapp.db.UserData
+import com.example.blockchainapp.viewModel.ItemViewModel
 
 @Composable
-fun AdvertGivePage() {
-    val userData by remember { mutableStateOf(UserData()) }
+fun AdvertGivePage(viewModel: ItemViewModel) {
+    // viewModel
+    var name by remember { mutableStateOf("") }
+    var surname by remember { mutableStateOf("") }
+    var ssn by remember { mutableStateOf("") }
+    var phoneNumber by remember { mutableStateOf("") }
+    var itemTitle by remember { mutableStateOf("") }
+    var itemDescription by remember { mutableStateOf("") }
+    var itemPrice by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -62,8 +70,8 @@ fun AdvertGivePage() {
                 .padding(vertical = 8.dp),
         ) {
             TextField(
-                value = userData.name,
-                onValueChange = { userData.name = it },
+                value = name,
+                onValueChange = { name = it },
                 label = { Text("Name") },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -72,8 +80,8 @@ fun AdvertGivePage() {
             )
 
             TextField(
-                value = userData.surname,
-                onValueChange = { userData.surname = it },
+                value = surname,
+                onValueChange = { surname = it },
                 label = { Text("Surname") },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -89,8 +97,8 @@ fun AdvertGivePage() {
                 .padding(vertical = 8.dp),
         ) {
             TextField(
-                value = userData.ssn,
-                onValueChange = { userData.ssn = it },
+                value = ssn,
+                onValueChange = { ssn = it },
                 label = { Text("SSN") },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -99,8 +107,8 @@ fun AdvertGivePage() {
             )
 
             TextField(
-                value = userData.phoneNumber,
-                onValueChange = { userData.phoneNumber = it },
+                value = phoneNumber,
+                onValueChange = { phoneNumber = it },
                 label = { Text("Phone Number") },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -110,32 +118,52 @@ fun AdvertGivePage() {
         }
 
         TextField(
-            value = userData.itemTitle,
-            onValueChange = { userData.itemTitle = it },
+            value = itemTitle,
+            onValueChange = { itemTitle = it },
             label = { Text("Item Title") },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp),
         )
 
+        itemDescription.let {
+            TextField(
+                value = it,
+                onValueChange = { itemDescription = it },
+                label = { Text("Item Description") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp)
+                    .padding(vertical = 8.dp),
+            )
+        }
         TextField(
-            value = userData.itemDescription,
-            onValueChange = { userData.itemDescription = it },
-            label = { Text("Item Description") },
+            value = itemPrice,
+            onValueChange = { itemPrice = it },
+            label = { Text("Item Price") },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(200.dp)
                 .padding(vertical = 8.dp),
         )
 
         // Save button
         Button(
             onClick = {
-                // Handle save button click
+                val userData = UserData(
+                    itemId = 0,
+                    name = name,
+                    surname = surname,
+                    ssn = ssn,
+                    phoneNumber = phoneNumber,
+                    itemTitle = itemTitle,
+                    itemDescription = itemDescription.ifEmpty { null },
+                    itemPrice = itemPrice.toIntOrNull(),
+                )
+                viewModel.saveButton(userData)
             },
             colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.BCYellow)),
             content = {
-                Text("Save")
+                Text("Kaydet")
             },
             modifier = Modifier
                 .fillMaxWidth()

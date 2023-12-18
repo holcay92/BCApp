@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -19,6 +20,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment.Companion.Bottom
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -33,18 +35,18 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.blockchainapp.R
-import com.example.blockchainapp.model.UserData
+import com.example.blockchainapp.viewModel.ItemViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
+    private val viewModel by viewModels<ItemViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             AppNavHost(
+                viewModel,
                 navController = rememberNavController(),
-                startDestination = "SplashScreen",
             )
         }
     }
@@ -52,7 +54,6 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainPage(navController: NavController) {
-    // Compose function for the homepage
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -82,7 +83,7 @@ fun MainPage(navController: NavController) {
             Spacer(modifier = Modifier.padding(28.dp))
 
             Text(
-                text = "Otomotiv, Emlak, Kayıp, Çalıntı ve daha fazlası için ilan oluşturabilirsiniz.",
+                text = "Otomotiv, Emlak, Kayıp, Çalıntı.",
                 fontFamily = FontFamily.Serif,
                 fontSize = 20.sp,
                 color = Color.Gray,
@@ -109,7 +110,7 @@ fun MainPage(navController: NavController) {
                 modifier = Modifier.weight(1f),
                 content = {
                     Text(
-                        text = "Give Advert",
+                        text = "İlan Ver",
                         modifier = Modifier,
                     )
                 },
@@ -128,7 +129,7 @@ fun MainPage(navController: NavController) {
                 modifier = Modifier.weight(1f),
             ) {
                 Text(
-                    text = "List All",
+                    text = "İlanlara Bak",
                     modifier = Modifier,
 
                 )
@@ -139,8 +140,8 @@ fun MainPage(navController: NavController) {
 
 @Composable
 fun AppNavHost(
+    viewModel: ItemViewModel,
     navController: NavHostController,
-    startDestination: String,
 ) {
     NavHost(navController = navController, startDestination = "SplashScreen") {
         composable("SplashScreen") {
@@ -150,15 +151,10 @@ fun AppNavHost(
             MainPage(navController)
         }
         composable("GiveAdvertPage") {
-            AdvertGivePage()
+            AdvertGivePage(viewModel)
         }
         composable("ListAdvertisementsPage") {
-            ListAdvertisementsPage(
-                itemList = listOf(
-                    UserData("name1", "surname1", "ssn1"),
-                    UserData("name2", "surname2", "ssn2"),
-                ),
-            )
+            ListAdvertisementsPage(viewModel)
         }
     }
 }
