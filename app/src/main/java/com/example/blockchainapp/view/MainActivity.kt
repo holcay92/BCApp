@@ -34,6 +34,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.blockchainapp.R
 import com.example.blockchainapp.viewModel.ItemViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -154,7 +155,18 @@ fun AppNavHost(
             AdvertGivePage(viewModel, navController)
         }
         composable("ListAdvertisementsPage") {
-            ListAdvertisementsPage(viewModel)
+            ListAdvertisementsPage(viewModel, navController)
+        }
+        composable(
+            "DetailPage/{itemId}",
+            arguments = listOf(
+                navArgument("itemId") {
+                    defaultValue = 2
+                },
+            ),
+        ) {
+            val itemId = it.arguments?.getInt("itemId") ?: 2
+            DetailPage(viewModel, itemId)
         }
     }
 }
