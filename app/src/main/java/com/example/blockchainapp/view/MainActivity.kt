@@ -151,7 +151,7 @@ fun AppNavHost(
             MainPage(navController)
         }
         composable("GiveAdvertPage") {
-            AdvertGivePage(viewModel)
+            AdvertGivePage(viewModel, navController)
         }
         composable("ListAdvertisementsPage") {
             ListAdvertisementsPage(viewModel)
