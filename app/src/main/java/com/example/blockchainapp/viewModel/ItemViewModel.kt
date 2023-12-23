@@ -9,6 +9,7 @@ import com.example.blockchainapp.db.ItemDao
 import com.example.blockchainapp.db.UserData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -18,8 +19,17 @@ class ItemViewModel @Inject constructor(private val dao: ItemDao) : ViewModel() 
 
     var itemList: LiveData<List<UserData>> = dao.getAllItems()
 
-    fun saveButton(item: UserData) = viewModelScope.launch {
-        dao.insertItem(item)
+    suspend fun saveButton(item: UserData) {
+        coroutineScope { dao.insertItem(item) }
+    }
+
+    suspend fun deleteButton(itemId: Int) {
+        val item = coroutineScope {
+            dao.getItem(itemId)
+        }
+        item.let {
+            dao.deleteItem(it)
+        }
     }
 
     private val _item = MutableLiveData<UserData?>()

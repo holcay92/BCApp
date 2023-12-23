@@ -30,12 +30,15 @@ import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.blockchainapp.R
 import com.example.blockchainapp.db.UserData
 import com.example.blockchainapp.viewModel.ItemViewModel
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Composable
 fun AdvertGivePage(viewModel: ItemViewModel, navController: NavController) {
@@ -229,18 +232,30 @@ fun ShowAddConfirmationDialog(
         confirmButton = {
             Button(
                 onClick = {
-                    runBlocking { viewModel.saveButton(userData) }
-                    Toast.makeText(
-                        context,
-                        "İlan eklendi.",
-                        Toast.LENGTH_SHORT,
-                    ).show()
+                    viewModel.viewModelScope.launch {
+                        try {
+                            withContext(Dispatchers.IO) {
+                                viewModel.saveButton(userData)
+                            }
+                            Toast.makeText(
+                                context,
+                                "İlan eklendi.",
+                                Toast.LENGTH_SHORT,
+                            ).show()
 
-                    // clear input fields
-                    clearInputFields(userData)
-                    // go to main page
-                    navController.navigate("MainPage")
-                    onDismiss()
+                            clearInputFields(userData)
+
+                            navController.navigate("MainPage")
+
+                            onDismiss()
+                        } catch (e: Exception) {
+                            Toast.makeText(
+                                context,
+                                "An error occurred: ${e.message}",
+                                Toast.LENGTH_SHORT,
+                            ).show()
+                        }
+                    }
                 },
             ) {
                 Text("Evet")
