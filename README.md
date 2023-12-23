@@ -3,3 +3,4 @@
 ![Screenshot 2023-12-24 at 02 15 29](https://github.com/holcay92/BCApp/assets/81256755/c756f669-ed22-4541-86d9-57c6a6b90a66)
 ![Screenshot 2023-12-24 at 02 15 56](https://github.com/holcay92/BCApp/assets/81256755/d3db7d86-824d-4c3c-98a8-49defb722c12)
 ![Screenshot 2023-12-24 at 02 16 03](https://github.com/holcay92/BCApp/assets/81256755/cbb3629e-2c38-4db8-a2e1-9adcc8d5e74b)
+![Screenshot 2023-12-24 at 02 17 38](https://github.com/holcay92/BCApp/assets/81256755/2f86726b-1601-498e-922e-80bb336052f6)
