@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -34,6 +35,7 @@ import androidx.navigation.NavController
 import com.example.blockchainapp.R
 import com.example.blockchainapp.db.UserData
 import com.example.blockchainapp.viewModel.ItemViewModel
+import kotlinx.coroutines.runBlocking
 
 @Composable
 fun AdvertGivePage(viewModel: ItemViewModel, navController: NavController) {
@@ -45,6 +47,7 @@ fun AdvertGivePage(viewModel: ItemViewModel, navController: NavController) {
     var itemDescription by remember { mutableStateOf("") }
     var itemPrice by remember { mutableStateOf("") }
     val context = LocalContext.current
+    var isDialogVisible by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .padding(16.dp)
@@ -172,16 +175,8 @@ fun AdvertGivePage(viewModel: ItemViewModel, navController: NavController) {
                     itemPrice = itemPrice.toIntOrNull(),
                 )
                 if (checkInputFields(userData)) {
-                    viewModel.saveButton(userData)
-                    Toast.makeText(
-                        context,
-                        "İlan eklendi.",
-                        Toast.LENGTH_SHORT,
-                    ).show()
-                    // clear input fields
-                    clearInputFields(userData)
-                    // go to main page
-                    navController.navigate("MainPage")
+                    isDialogVisible = true
+                    // viewModel.saveButton(userData)
                 } else {
                     Toast.makeText(
                         context,
@@ -199,6 +194,69 @@ fun AdvertGivePage(viewModel: ItemViewModel, navController: NavController) {
                 .padding(top = 16.dp),
         )
     }
+    if (isDialogVisible) {
+        ShowAddConfirmationDialog(
+            navController = navController,
+            context = context,
+            viewModel = viewModel,
+            userData = UserData(
+                itemId = 0,
+                name = name,
+                surname = surname,
+                ssn = ssn,
+                phoneNumber = phoneNumber,
+                itemTitle = itemTitle,
+                itemDescription = itemDescription.ifEmpty { null },
+                itemPrice = itemPrice.toIntOrNull(),
+            ),
+            onDismiss = { isDialogVisible = false },
+        )
+    }
+}
+
+@Composable
+fun ShowAddConfirmationDialog(
+    navController: NavController,
+    context: android.content.Context,
+    viewModel: ItemViewModel,
+    userData: UserData,
+    onDismiss: () -> Unit = {},
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(text = "Dikkat") },
+        text = { Text(text = "İlanınız yayınlanacaktır") },
+        confirmButton = {
+            Button(
+                onClick = {
+                    runBlocking { viewModel.saveButton(userData) }
+                    Toast.makeText(
+                        context,
+                        "İlan eklendi.",
+                        Toast.LENGTH_SHORT,
+                    ).show()
+
+                    // clear input fields
+                    clearInputFields(userData)
+                    // go to main page
+                    navController.navigate("MainPage")
+                    onDismiss()
+                },
+            ) {
+                Text("Evet")
+            }
+        },
+        dismissButton = {
+            Button(
+                onClick = {
+                    // close the dialog without doing anything
+                    onDismiss()
+                },
+            ) {
+                Text(text = "Hayır")
+            }
+        },
+    )
 }
 
 fun checkInputFields(
@@ -212,6 +270,7 @@ fun checkInputFields(
         userData.itemTitle.isNotEmpty() &&
         userData.itemPrice != null
 }
+
 fun clearInputFields(
     userData: UserData,
 ): Boolean {
