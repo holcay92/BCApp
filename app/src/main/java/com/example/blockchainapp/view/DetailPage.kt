@@ -49,16 +49,16 @@ fun DetailPage(viewModel: ItemViewModel, argItemId: Int) {
     }
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .background(Color.LightGray),
+            .fillMaxSize().padding(top = 80.dp)
+            .background(colorResource(id = R.color.BCYellow)),
     ) {
         if (item != null) {
-            ItemTitle(title = "İlan Sahibi", value = "${item!!.name} ${item!!.surname}")
-            ItemTitle(title = "TC Kimlik No", value = item!!.ssn)
-            ItemTitle(title = "Telefon Numarası", value = item!!.phoneNumber)
             ItemTitle(title = "İlan Başlığı", value = item!!.itemTitle)
-            item!!.itemDescription?.let { ItemTitle(title = "İlan Açıklaması", value = it) }
             ItemTitle(title = "İlan Fiyatı", value = item!!.itemPrice.toString())
+            item!!.itemDescription?.let { ItemTitle(title = "İlan Açıklaması", value = it) }
+            ItemTitle(title = "İlan Sahibi", value = "${item!!.name} ${item!!.surname}")
+            // ItemTitle(title = "TC Kimlik No", value = item!!.ssn)
+            ItemTitle(title = "Telefon Numarası", value = item!!.phoneNumber)
         }
         Spacer(modifier = Modifier.width(10.dp))
     }
